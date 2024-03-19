@@ -1,0 +1,40 @@
+// time complexity is o(n * capa), because there are that many different states
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+ll dp[102][100002];
+
+ll solve(ll n, ll ci, ll capa, ll wt[], ll val[])
+{
+    if(capa<0) return LONG_MIN;
+    if(ci==n) return 0;
+    if(dp[ci][capa]!=-1) return dp[ci][capa];
+
+    ll op1=solve(n, ci+1, capa-wt[ci], wt, val)+val[ci];
+    ll op2=solve(n, ci+1, capa, wt, val);
+
+    return dp[ci][capa]=max(op1,op2);
+}
+
+int main()
+{
+    ll n,capa; cin>>n>>capa;
+
+    ll wt[n], val[n];
+    for(ll i=0;i<n;i++)
+    {
+        cin>>wt[i]>>val[i];
+    }
+
+    for(ll i=0;i<=100;i++)
+    {
+        for(ll j=0;j<=100000;j++)
+        {
+            dp[i][j]=-1;
+        }
+    }
+
+    cout<<solve(n, 0, capa, wt, val)<<endl;
+}
