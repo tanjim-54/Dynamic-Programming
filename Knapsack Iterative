@@ -1,0 +1,39 @@
+// in iterative version, it is easy to code if arrays are 1 index based, so here everything is 1 indexed
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+    ll n; cin>>n;
+    ll capa; cin>>capa;
+
+    ll val[n+5], wt[n+5];
+    for(ll i=1;i<=n;i++)
+    {
+        cin>>wt[i]>>val[i];
+    }
+
+    ll dp[n+5][capa+5];
+
+    ll op1, op2;
+    for(ll i=0;i<=n;i++)
+    {
+        for(ll j=0;j<=capa;j++)
+        {
+            if(i==0 || j==0)
+            {
+                dp[i][j]=0; continue;
+            }
+
+            op1=dp[i-1][j];
+            if(j-wt[i]>=0) op2=dp[i-1][j-wt[i]]+val[i];
+            else op2=LONG_MIN;
+
+            dp[i][j]=max(op1,op2);
+        }
+    }
+
+    cout<<dp[n][capa]<<endl;
+}
