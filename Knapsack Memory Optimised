@@ -1,0 +1,41 @@
+//it is memory optimised, we removed the n array from the dp[][], because for going to ci+1, we just need ci, not ci-1, ci-2 or beyond that, so we should not store those also
+//time complexity is same, o(n*capa)
+//space complexity is o(capa)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ll n; cin>>n;
+    ll capa; cin>>capa;
+
+    ll val[n+5], wt[n+5];
+    for(ll i=1;i<=n;i++)
+    {
+        cin>>wt[i]>>val[i];
+    }
+
+    ll prev[capa+5], curr[capa+5];
+    for(ll i=0;i<=capa;i++)
+    {
+        prev[i]=0;
+    }
+
+    ll op1, op2;
+    for(ll i=1;i<=n;i++)
+    {
+        for(ll j=1;j<=capa;j++)
+        {
+            op1=prev[j];
+            if(j-wt[i]>=0) op2=prev[j-wt[i]]+val[i];
+            else op2=LONG_MIN;
+
+            curr[j]=max(op1,op2);
+        }
+
+        for(ll j=1;j<=capa;j++) prev[j]=curr[j];
+    }
+
+    cout<<curr[capa]<<endl;
+}
